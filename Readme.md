@@ -1,10 +1,29 @@
-node ver = 16.xx
-npm = 7
+# What is this project
 
-react プロジェクトの作成
-app_name にはサービスの名前などを入れてください
-`make setup PROJECTNAME=app_name`
+このレポジトリは react(with vite)プロジェクトを作成、および起動するためのテンプレートです。
 
-React プロジェクト作成後、Makefile は消してください
+make コマンド, node, docker が使えることが前提となっています。
 
-作成後は docker-compose up -d で起動できます。
+## 使用フロー
+
+1. `make setup PROJECTNAME=app_name` (app_name は任意の値)<br/>
+   react project と docker image を生成する
+2. `make up` => localhost3000 で動いている<br/>
+   docker を起動する
+3. `make shell`<br/>
+   shell を起動する
+4. 3.で出力された値を実行してシェルに入る。<br/>
+   - `npm run dev`でアプリ(react)を起動
+   - `npm run build`でビルド
+   - `npm run preview`でビルド結果を起動
+5. `make down`<br/>
+   コンテナ群を落とす
+
+## 起動確認
+
+使用バージョン
+
+- node version => 16(16.15.0)<br/>
+- npm => 8(8.5.5)
+
+docker に権限を与えるために root ユーザーで make up してください(wsl 使用時)
