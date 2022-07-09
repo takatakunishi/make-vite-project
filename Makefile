@@ -1,13 +1,19 @@
 FRONTDIR=front
 
-setup: clean-all make-directory cra-vite rewite-vite-port build
+setup: clean-all make-directory cra-react rewite-vite-port build
+
+setup-vue: clean-all make-directory cra-vue rewite-vite-port build
 
 make-directory:
 	mkdir -p ${FRONTDIR}
 
-cra-vite:
+cra-react:
 	cd ${FRONTDIR} && echo ${PROJECTNAME} |\
-	npm create vite@latest . -- --template react-ts && cp -f ../basic/vite.config.ts vite.config.ts
+	npm create vite@latest . -- --template react-ts && cp -f ../basic/react.vite.config.ts vite.config.ts
+
+cra-vue:
+	cd ${FRONTDIR} && echo ${PROJECTNAME} |\
+	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
 
 build:
 	echo "\nPROJECTNAME=${PROJECTNAME}" >> .env && sed -i -e '/^$$/d' .env && docker-compose build

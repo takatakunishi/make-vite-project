@@ -8,6 +8,7 @@ make コマンド, node, docker が使えることが前提となっています
 
 1. `make setup PROJECTNAME=app_name` (app_name は任意の値)<br/>
    react project と docker image を生成する
+   `setup`とした場合はReactで、`setup-vue`とした場合はVueでプロジェクトを作成する。
 2. `make up` => localhost3000 で動いている<br/>
    docker を起動する
 3. `make shell`<br/>
@@ -21,7 +22,7 @@ make コマンド, node, docker が使えることが前提となっています
 
 ## 起動確認
 
-使用バージョン
+確認済みのversion
 
 - node version => 16(16.15.0)<br/>
 - npm => 8(8.5.5)
