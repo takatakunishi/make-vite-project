@@ -1,5 +1,4 @@
-ARG IMAGESETTING
-FROM ${IMAGESETTING}
+FROM <<ImageSetting>>
 WORKDIR /usr/src/app
 COPY ./front/package*.json ./
 RUN npm install && chown node -R node_modules

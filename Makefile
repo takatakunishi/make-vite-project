@@ -1,8 +1,10 @@
 FRONTDIR=front
+IMAGESETTING=node:16.14-slim
+PROJECTNAME=<<PROJECTNAME設定>>
 
-setup: clean-all make-directory cra-react rewite-vite-port build
+setup: clean-all make-directory rewrite-docker-setting-files cra-react rewrite-vite-port build
 
-setup-vue: clean-all make-directory cra-vue rewite-vite-port build
+setup-vue: clean-all make-directory rewrite-docker-setting-files cra-vue rewrite-vite-port build
 
 make-directory:
 	mkdir -p ${FRONTDIR}
@@ -16,10 +18,26 @@ cra-vue:
 	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
 
 build:
-	echo "\nPROJECTNAME=${PROJECTNAME}" >> .env && sed -i -e '/^$$/d' .env && docker-compose build
+	docker-compose build
 
-rewite-vite-port:
-	sed -i -e '/vite preview/s/vite preview/vite preview --port 3001/g' front/package.json
+rewrite-docker-setting-files:  rewrite-docker-compose rewrite-dockerfile edit-devcontainer-file
+
+rewrite-vite-port:
+	cat front/package.json | sed -e '/vite preview/s/vite preview/vite preview --port 3001/g' | \
+	sed -e '/"dev": "vite"/s/"dev": "vite"/"dev": "vite serve --port 3000"/g' > tmpfrontpackage.json && \
+	cat tmpfrontpackage.json > front/package.json && rm tmpfrontpackage.json
+
+rewrite-docker-compose:
+	cat docker-compose.yml | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
+	cat tmpfile > docker-compose.yml && rm tmpfile
+
+rewrite-dockerfile:
+	cat Dockerfile | sed -e 's/<<ImageSetting>>/${IMAGESETTING}/' > tmpfile && \
+	cat tmpfile > Dockerfile && rm tmpfile
+
+edit-devcontainer-file:
+	cat .devcontainer/devcontainer.json | sed -e "s/<<ProjectName>>/${PROJECTNAME}/" > .devcontainer/tmp.devcontainer.json && \
+	cat .devcontainer/tmp.devcontainer.json > .devcontainer/devcontainer.json && rm .devcontainer/tmp.devcontainer.json
 
 up:
 	docker-compose up -d
@@ -27,16 +45,10 @@ up:
 down:
 	docker-compose down
 
-clean-env:
-	sed -i -e "/^PROJECTNAME=/d" .env && sed -i -e '/^$$/d' .env
-
 clean-dir:
 	-rm -rf $(FRONTDIR)
 
 shell:
-	find . -name .env -type f -print0 |\
-	xargs -0 grep PROJECTNAME |\
-	sed -e 's/PROJECTNAME=//' |\
-	xargs -I arg echo 'docker exec -it arg_front bash'
+	echo 'docker exec -it ${PROJECTNAME} bash'
 
-clean-all: clean-dir clean-env
+clean-all: clean-dir

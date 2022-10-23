@@ -2,12 +2,10 @@ version: '3' # docker-composeのバージョン
 services:
   app:
     build:
-      args:
-        - IMAGESETTING=${IMAGESETTING}
       # イメージを作るためのDockerfileがある場所
       context: . # Dockerfileのある場所
       dockerfile: Dockerfile
-    container_name: ${PROJECTNAME}_front
+    container_name: <<ProjectName>>_front
     volumes:
       # ローカルのデータにコンテナのデータをマウントする。
       - ./front:/usr/src/app
