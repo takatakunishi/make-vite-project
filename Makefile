@@ -4,7 +4,7 @@ PROJECTNAME=<<PROJECTNAME設定>>
 
 .PHONY: setup-all setup setup-vue
 
-setup-all: rename-dir setup rm-makefile
+setup-all: rename-dir setup rm-garbage
 
 setup: clean-all make-directory rewrite-docker-setting-files cra-react rewrite-vite-port build
 
@@ -48,7 +48,7 @@ rename-dir:
 	mv make-vite-project/ ${PROJECTNAME}/ && \
 	cd ${PROJECTNAME}
 
-rm-makefile:
+rm-garbage:
 	rm Makefile && \
 	cp basic/Makefile Makefile && \
 	rm -r basic && \
