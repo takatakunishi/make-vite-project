@@ -9,9 +9,9 @@ services:
     volumes:
       # ローカルのデータにコンテナのデータをマウントする。
       - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - /usr/src/app/front/node_modules
     working_dir: /usr/src/app # デフォルトの作業ディレクトリを指定
-    command: sh -c 'npm run dev'
+    command: sh -c 'cd front && npm run dev'
     environment:
       - CHOKIDAR_USEPOLLING=true # docker環境の中でホットリロードを有効にします。
     tty: true
