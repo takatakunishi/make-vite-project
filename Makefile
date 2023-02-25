@@ -41,6 +41,11 @@ edit-devcontainer-file:
 	cat .devcontainer/devcontainer.json | sed -e "s/<<ProjectName>>/${PROJECTNAME}/" > .devcontainer/tmp.devcontainer.json && \
 	cat .devcontainer/tmp.devcontainer.json > .devcontainer/devcontainer.json && rm .devcontainer/tmp.devcontainer.json
 
+rename-dir:
+	cd ../ && \
+	mv make-vite-project/ ${PROJECTNAME}/ && \
+	cd ${PROJECTNAME}
+
 rm-makefile:
 	rm Makefile && \
 	cp basic/Makefile Makefile && \
