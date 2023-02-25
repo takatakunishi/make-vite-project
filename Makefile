@@ -2,7 +2,9 @@ FRONTDIR=front
 IMAGESETTING=node:16.14-slim
 PROJECTNAME=<<PROJECTNAME設定>>
 
-.PHONY: setup setup-vue
+.PHONY: setup-all setup setup-vue
+
+setup-all: rename-dir setup rm-makefile
 
 setup: clean-all make-directory rewrite-docker-setting-files cra-react rewrite-vite-port build
 
