@@ -2,6 +2,8 @@ FRONTDIR=front
 IMAGESETTING=node:16.14-slim
 PROJECTNAME=<<PROJECTNAME設定>>
 
+.PHONY: setup setup-vue
+
 setup: clean-all make-directory rewrite-docker-setting-files cra-react rewrite-vite-port build
 
 setup-vue: clean-all make-directory rewrite-docker-setting-files cra-vue rewrite-vite-port build
@@ -39,16 +41,13 @@ edit-devcontainer-file:
 	cat .devcontainer/devcontainer.json | sed -e "s/<<ProjectName>>/${PROJECTNAME}/" > .devcontainer/tmp.devcontainer.json && \
 	cat .devcontainer/tmp.devcontainer.json > .devcontainer/devcontainer.json && rm .devcontainer/tmp.devcontainer.json
 
-up:
-	docker-compose up -d
-
-down:
-	docker-compose down
+rm-makefile:
+	rm Makefile && \
+	cp basic/Makefile Makefile && \
+	rm -r basic && \
+	sudo rm -r .git
 
 clean-dir:
 	-rm -rf $(FRONTDIR)
-
-shell:
-	echo 'docker exec -it ${PROJECTNAME} bash'
 
 clean-all: clean-dir
