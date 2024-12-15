@@ -1,6 +1,6 @@
 {
   "name": "<<ProjectName>> (Web)",
-  "dockerComposeFile": "../docker-compose.yml",
+  "dockerComposeFile": "../compose.yml",
   "service": "app",
   "workspaceFolder": "/usr/src/app",
   "customizations": {

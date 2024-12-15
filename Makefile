@@ -22,7 +22,7 @@ cra-vue:
 	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
 
 build:
-	docker-compose build
+	docker compose build
 
 rewrite-docker-setting-files:  rewrite-docker-compose rewrite-dockerfile edit-devcontainer-file
 
@@ -32,8 +32,8 @@ rewrite-vite-port:
 	cat tmpfrontpackage.json > front/package.json && rm tmpfrontpackage.json
 
 rewrite-docker-compose:
-	cat docker-compose.yml | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
-	cat tmpfile > docker-compose.yml && rm tmpfile
+	cat compose.yml | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
+	cat tmpfile > compose.yml && rm tmpfile
 
 rewrite-dockerfile:
 	cat Dockerfile | sed -e 's/<<ImageSetting>>/${IMAGESETTING}/' > tmpfile && \
