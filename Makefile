@@ -1,6 +1,6 @@
 FRONTDIR=front
 IMAGESETTING=node:22.12.0
-PROJECTNAME=<<PROJECTNAME設定>>
+PROJECTNAME=vue-vitak
 
 .PHONY: setup-all setup setup-vue
 
@@ -22,9 +22,7 @@ cra-vue:
 	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
 
 cra-vue-v2:
-	cp -r basic/front/ ${FRONTDIR}/ && \
-	cd ${FRONTDIR} && echo ${PROJECTNAME} |\
-	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
+	cp -r basic/vue/ ${FRONTDIR}/
 
 build:
 	docker compose build
@@ -41,8 +39,8 @@ rewrite-docker-compose:
 	cat tmpfile > compose.yml && rm tmpfile
 
 rewrite-package-%:
-	cat ${@:rewrite-package-%=%}/package.json | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
-	cat tmpfile > ${@:rewrite-package-%=%}/package.json && rm tmpfile
+	cat basic/${@:rewrite-package-%=%}/package.json | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
+	cat tmpfile > basic/${@:rewrite-package-%=%}/package.json && rm tmpfile
 
 rewrite-dockerfile:
 	cat Dockerfile | sed -e 's/<<ImageSetting>>/${IMAGESETTING}/' > tmpfile && \
