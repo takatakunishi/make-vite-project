@@ -1,5 +1,5 @@
 FRONTDIR=front
-IMAGESETTING=node:20.8.0
+IMAGESETTING=node:22.12.0
 PROJECTNAME=<<PROJECTNAME設定>>
 
 .PHONY: setup-all setup setup-vue
