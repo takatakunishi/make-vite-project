@@ -8,7 +8,7 @@ setup-all: rename-dir setup rm-garbage
 
 setup: clean-all make-directory rewrite-docker-setting-files cra-react rewrite-vite-port build
 
-setup-vue: clean-all make-directory rewrite-docker-setting-files cra-vue rewrite-vite-port build
+setup-vue: clean-all make-directory rewrite-docker-setting-files rewrite-package-vue cra-vue-v2 rewrite-vite-port build
 
 make-directory:
 	mkdir -p ${FRONTDIR}
@@ -18,6 +18,11 @@ cra-react:
 	npm create vite@latest . -- --template react-ts && cp -f ../basic/react.vite.config.ts vite.config.ts
 
 cra-vue:
+	cd ${FRONTDIR} && echo ${PROJECTNAME} |\
+	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
+
+cra-vue-v2:
+	cp -r basic/front/ ${FRONTDIR}/ && \
 	cd ${FRONTDIR} && echo ${PROJECTNAME} |\
 	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
 
@@ -34,6 +39,10 @@ rewrite-vite-port:
 rewrite-docker-compose:
 	cat compose.yml | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
 	cat tmpfile > compose.yml && rm tmpfile
+
+rewrite-package-%:
+	cat ${@:rewrite-package-%=%}/package.json | sed -e 's/<<ProjectName>>/${PROJECTNAME}/' > tmpfile && \
+	cat tmpfile > ${@:rewrite-package-%=%}/package.json && rm tmpfile
 
 rewrite-dockerfile:
 	cat Dockerfile | sed -e 's/<<ImageSetting>>/${IMAGESETTING}/' > tmpfile && \
