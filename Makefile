@@ -1,6 +1,6 @@
 FRONTDIR=front
 IMAGESETTING=node:22.12.0
-PROJECTNAME=vue-vitak
+PROJECTNAME=<PROJECTNAME設定>>
 
 .PHONY: setup-all setup setup-vue
 
