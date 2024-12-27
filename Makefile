@@ -8,7 +8,11 @@ setup-all: rename-dir setup rm-garbage
 
 setup: clean-all make-directory rewrite-docker-setting-files cra-react rewrite-vite-port build
 
+setup-%: clean-all make-directory rewrite-docker-setting-files rewrite-package-${@:setup-%=%} cra-${@:setup-%=%}-v2 build
+
 setup-vue: clean-all make-directory rewrite-docker-setting-files rewrite-package-vue cra-vue-v2 rewrite-vite-port build
+
+setup-react: clean-all make-directory rewrite-docker-setting-files rewrite-package-react cra-react-v2 rewrite-vite-port build
 
 make-directory:
 	mkdir -p ${FRONTDIR}
@@ -21,8 +25,8 @@ cra-vue:
 	cd ${FRONTDIR} && echo ${PROJECTNAME} |\
 	npm create vite@latest . -- --template vue-ts && cp -f ../basic/vue.vite.config.ts vite.config.ts
 
-cra-vue-v2:
-	cp -r basic/vue/ ${FRONTDIR}/
+cra-%-v2:
+	cp -r basic/${@:cra-%-v2=%}/ ${FRONTDIR}/
 
 build:
 	docker compose build
